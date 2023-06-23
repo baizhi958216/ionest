@@ -1,12 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Response } from 'express';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/bangumi_list')
-  getList() {
-    return this.appService.getList();
+  async getList(@Res() res: Response) {
+    const data = await this.appService.getList();
+    res.status(HttpStatus.OK).json(data);
   }
 }
